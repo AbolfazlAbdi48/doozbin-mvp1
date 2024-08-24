@@ -34,6 +34,7 @@ class UserScan(models.Model):
     description = models.CharField(null=True, blank=True, max_length=255, verbose_name='توضیحات')
     brand = models.ForeignKey(Brand, null=True, blank=True, on_delete=models.PROTECT, verbose_name='برند')
     accepted = models.BooleanField(default=True, verbose_name='پذیرفته شده/نشده')
+    scanned_img = models.ImageField(upload_to='account/scanned/', null=True, blank=True, verbose_name='تصویر')
     created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     update = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
 
