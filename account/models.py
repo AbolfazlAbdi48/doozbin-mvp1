@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-from brand.models import Brand
+from brand.models import Brand, Asset
 
 
 # Create your models here.
@@ -43,3 +43,14 @@ class UserScan(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.accepted}"
+
+
+class OwnedAsset(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='کاربر')
+    asset = models.ForeignKey(Asset, on_delete=models.PROTECT, verbose_name='asset')
+    price = models.IntegerField(null=True, blank=True, verbose_name='قیمت در زمان خرید')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    update = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
+
+    def __str__(self):
+        return f"{self.user} - {self.asset}"

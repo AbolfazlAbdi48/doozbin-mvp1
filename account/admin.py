@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from account.models import User, UserWallet, UserScan
+from account.models import User, UserWallet, UserScan, OwnedAsset
 
 
 # Register your models here.
@@ -17,10 +17,17 @@ class UserScanInline(admin.TabularInline):
     show_change_link = True
 
 
+class OwnedAssetInline(admin.TabularInline):
+    model = OwnedAsset
+    extra = 0
+    show_change_link = True
+
+
 class CustomUserAdmin(UserAdmin):
     inlines = [
         UserScanInline,
-        UserWalletInline
+        UserWalletInline,
+        OwnedAssetInline
     ]
 
 
@@ -38,3 +45,8 @@ class UserScanAdmin(admin.ModelAdmin):
     list_display = ['user', 'coin', 'brand', 'accepted', 'created']
     search_fields = ('brand__unique_name', 'brand__name', 'user__username')
     list_filter = ('accepted',)
+
+
+@admin.register(OwnedAsset)
+class OwnedAssetAdmin(admin.ModelAdmin):
+    pass
