@@ -121,3 +121,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# send otp parameters
+EXPIRY_TIME_OTP = 300
+SMS_PANEL_BASE_API = "https://api2.ippanel.com/api/v1"
+SMS_ORIGINATOR = "+983000505"
+SMS_PANEL_ACCESS_KEY = "8wRCaGMHUvF_1nb2-3gifE3bvWeuwLPkPcpjoqx9Z_Y="
