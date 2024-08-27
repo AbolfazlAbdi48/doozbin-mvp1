@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+<div style="display: flex; flex-direction: column; align-items: center;"></div>
+
+<video autoplay id="video" style="width: 700px;"></video>
+
+<div id="snap">capture</div>
+
+<canvas id="canvas" width="640px" height="480px"></canvas>
+
+
+<script>
+    const video = document.getElementById("video")
+    const canvas = document.getElementById("canvas")
+    const snap = document.getElementById("snap")
+
+
+    const constraints = {
+        audio: false,
+        video: {
+            width: {min: 1024, ideal: 1280},
+            height: {ideal: 720}
+        }
+    }
+
+    async function startWebcam() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints)
+            video.srcObject = stream
+            window.stream = stream
+        } catch (e) {
+            console.log(e.toString())
+        }
+    }
+
+    var context = canvas.getContext("2d")
+    snap.addEventListener('click', () => {
+        context.drawImage(video, 0, 0, 640, 480)
+
+
+        var imgData = canvas.toDataURL('image/png')
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/scan/img/', true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));  // برای ارسال CSRF token در Django
+        xhr.send(JSON.stringify({image: imgData}));
+    })
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    startWebcam()
+</script>
+
+</body>
+
+</html>
