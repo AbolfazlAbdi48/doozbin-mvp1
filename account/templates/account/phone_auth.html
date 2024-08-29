@@ -1,5 +1,50 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="ورود">
-</form>
+{% extends 'core/base/_base.html' %}
+{% load static %}
+
+{% block title %}
+    دوزبین | ورود به حساب
+{% endblock %}
+
+{% block main_content %}
+    <div class="d-flex justify-content-center align-items-center flex-column">
+        <div class="col-12 text-center my-5">
+            <img src="{% static 'appstatics/img/logo.png' %}" alt="">
+        </div>
+        <div class="col-12 text-center my-5">
+            <form method="post" autocomplete="off">
+                {% csrf_token %}
+                <div>
+                    {{ form.phone_number }}
+                    {% if not form.phone_number.errors and not messages %}
+                        <li class="text-secondary text-right">{{ form.phone_number.help_text }}</li>
+                    {% endif %}
+
+                    {% if form.phone_number.errors %}
+                        {% for error in form.phone_number.errors %}
+                            <li class="text-danger text-right">{{ error }}</li>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% for message in messages %}
+                        <li {% if message.tags == 'error' %}
+                            class="text-danger text-right"{% endif %}>
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </div>
+                <div class="my-2">
+                    <button type="submit" class="btn btn-primary w-100 primary-gradient-bg p-2 border-none">ورود به
+                        دوزبین
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 text-center my-5">
+            <p class="text-secondary">
+                با ورود و یا ثبت نام در دوزبین شما <a href="#" class="text-white">شرایط و قوانین</a> استفاده
+                ازدوزبین و <a href="#" class="text-white">قوانین حریم خصوصی</a> آنرا می
+                پذیرید
+            </p>
+        </div>
+    </div>
+{% endblock %}

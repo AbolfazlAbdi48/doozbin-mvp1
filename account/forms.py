@@ -6,9 +6,9 @@ from django import forms
 class PhoneNumberForm(forms.Form):
     phone_number = forms.CharField(
         widget=forms.NumberInput(attrs={
-            'class': 'form-control', 'placeholder': '09xxxxxxxxx'
+            'class': 'form-control custom-input', 'placeholder': '09...'
         }),
-        help_text='شماره موبایل با 09 شروع شود.',
+        help_text='شماره موبایل با 09 شروع بشه.',
         label='شماره موبایل',
         min_length=11,
         max_length=11
@@ -20,14 +20,14 @@ class PhoneNumberForm(forms.Form):
         subst = ""
         result = re.sub(regex, subst, phone_number, 0, re.MULTILINE)
         if len(phone_number) != 11 and not result:
-            raise forms.ValidationError('لطفا شماره موبایل را به درستی وارد کنید.')
+            raise forms.ValidationError('لطفا شماره موبایل را به درستی وارد کن')
         return phone_number
 
 
 class VerifyOtpForm(forms.Form):
     code = forms.CharField(
         widget=forms.NumberInput(attrs={
-            'class': 'form-control', 'placeholder': 'xxxx', 'autofocus': True
+            'class': 'form-control custom-input', 'placeholder': 'xxxx', 'autofocus': True
         }),
         label='کد تائید',
         min_length=4,
@@ -38,14 +38,14 @@ class VerifyOtpForm(forms.Form):
 class RegisterForm(forms.Form):
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control', 'placeholder': 'nickname'
+            'class': 'form-control custom-input', 'placeholder': 'nickname'
         }),
         label='nickname',
         required=True
     )
     referral_code = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control', 'placeholder': 'کد معرف'
+            'class': 'form-control custom-input', 'placeholder': 'کد معرف'
         }),
         label='کد معرف',
         required=False

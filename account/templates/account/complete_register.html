@@ -1,5 +1,45 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="ورود">
-</form>
+{% extends 'core/base/_base.html' %}
+{% load static %}
+
+{% block title %}
+    دوزبین | ورود به حساب
+{% endblock %}
+
+{% block main_content %}
+    <div class="d-flex justify-content-center align-items-center flex-column">
+        <div class="col-12 text-center my-5">
+            <img src="{% static 'appstatics/img/logo.png' %}">
+        </div>
+        <div class="col-12 text-center my-5">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-2">
+                    {{ form.first_name }}
+                    <p class="input-text">اسم مستعار شما در بازی نمایش داده میشود. مثلا شکارچی</p>
+                    <ul class="text-secondary mt-1">
+                        {% if form.first_name.errors %}
+                            {% for error in form.first_name.errors %}
+                                <li class="text-danger">{{ error }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div>
+                    {{ form.referral_code }}
+                    <p class="input-text">با کد معرف دوستت وارد شو تا هر دو نفر کوین دریافت کنید</p>
+                    <ul class="text-secondary mt-1">
+                        {% if form.referral_code.errors %}
+                            {% for error in form.referral_code.errors %}
+                                <li class="text-danger">{{ error }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="my-2">
+                    <button type="submit" class="btn btn-primary w-100 primary-gradient-bg p-2 border-none">ادامه
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

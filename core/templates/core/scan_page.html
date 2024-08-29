@@ -34,7 +34,7 @@
 
     async function startWebcam() {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia(constraints)
+            const stream = await navigator.mediaDevices.getUserMedia({video: true})
             video.srcObject = stream
             window.stream = stream
         } catch (e) {

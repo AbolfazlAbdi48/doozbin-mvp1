@@ -1,0 +1,84 @@
+@font-face {
+    font-family: "B_YEKAN";
+    src: url("/static/appstatics/font/B_Yekan/Yekan.ttf") format("truetype");
+}
+
+body {
+    font-family: "B_YEKAN";
+    direction: rtl;
+}
+
+.body {
+    background-color: #212121;
+}
+
+.primary-gradient-bg {
+    background: linear-gradient(90deg, rgba(0, 207, 255, 1) 0%, rgba(82, 50, 246, 1) 50%, rgba(139, 108, 187, 1) 100%);
+}
+
+.custom-input {
+    background: #424242;
+    border: none;
+    padding: 0.5rem;
+    color: #fff;
+}
+
+.input-text {
+    text-align: right;
+    color: #ebebeb;
+    font-size: 0.8rem;
+}
+
+.custom-input:focus {
+    color: #fff;
+    background-color: #424242;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+    text-align: right;
+}
+
+.custom-input::placeholder {
+    color: #c9c9c9;
+    text-align: right;
+}
+
+.box {
+    background: #303030;
+    border-radius: 0.7rem;
+    position: relative;
+    transform-style: preserve-3d;
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    box-shadow: linear-gradient(90deg, rgba(0, 207, 255, 1) 0%, rgba(82, 50, 246, 1) 50%, rgba(139, 108, 187, 1) 100%) 0px 4px 12px;
+}
+
+.box::before {
+    content: "";
+    position: absolute;
+    inset: 0px;
+    background: linear-gradient(90deg, rgba(0, 207, 255, 1) 0%, rgba(82, 50, 246, 1) 50%, rgba(139, 108, 187, 1) 100%);
+    filter: blur(10px);
+    transform: translate3d(0px, 0px, -1px);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.box-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /* border: 5px solid white; */
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.box-balance {
+    margin-top: 2rem;
+    color: #fff;
+}
+
+.text-right {
+    text-align: right !important;
+}

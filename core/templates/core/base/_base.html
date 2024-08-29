@@ -1,0 +1,31 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'appstatics/css/bootstrap.rtl.min.css' %}">
+    <link rel="stylesheet" href="{% static 'appstatics/css/style.css' %}">
+    {% block meta_css_code %}
+
+    {% endblock %}
+</head>
+
+<body class="body">
+<div class="container mt-5 p-4">
+    {% block main_content %}
+
+    {% endblock %}
+</div>
+
+<script src="{% static 'appstatics/js/bootstrap.bundle.min.js' %}"></script>
+
+{% block meta_js_code %}
+
+{% endblock %}
+</body>
+
+</html>

@@ -83,6 +83,7 @@ def complete_register_view(request):
         cd = form.cleaned_data  # cleaned data
 
         user.first_name = cd.get('first_name')
+        # TODO: save referral code
         user.set_unusable_password()
         user.save()
 
