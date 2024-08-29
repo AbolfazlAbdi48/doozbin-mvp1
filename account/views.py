@@ -1,11 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 
 from account.forms import PhoneNumberForm, VerifyOtpForm, RegisterForm
-from account.models import User
+from account.models import User, OwnedAsset
 from extensions.utils import get_client_ip, send_otp
 
 
@@ -103,3 +105,11 @@ def user_profile_view(request):
     TODO: login required
     """
     return render(request, 'account/profile.html')
+
+
+class UserAssetListView(LoginRequiredMixin, ListView):
+    model = OwnedAsset
+    template_name = 'account/owned_asset.html'
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user).order_by('-created')
