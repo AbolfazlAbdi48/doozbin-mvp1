@@ -1,0 +1,59 @@
+{% extends 'core/base/_base.html' %}
+{% load static %}
+
+{% block title %}
+    دوزبین | فروشگاه
+{% endblock %}
+
+{% block main_content %}
+    <div class="d-flex justify-content-center align-items-center flex-column">
+        <div class="col-12 text-center mt-5 mb-4">
+            <div class="box">
+                {% if not from_post %}
+                    <img src="{{ asset.logo.url }}" alt="" class="box-pic">
+                    <h6 class="box-balance">{{ asset.title }}</h6>
+                    <p class="text-white">{{ asset.description }}</p>
+                    <p class="text-white" dir="rtl">
+                        قیمت: {{ asset.price }} دوزکوین
+                    </p>
+                {% else %}
+                    <div class="box-balance primary-gradient-bg text-white p-5 rounded">
+                        <h5>{{ asset.value }}</h5>
+                    </div>
+                {% endif %}
+                <hr class="bg-secondary"/>
+                <p class="text-white" dir="rtl">
+                    <img src="{% static 'appstatics/img/coin-1.png' %}" alt="">
+                    موجودی شما: {{ request.user.userwallet.balance }} دوزکوین
+                </p>
+                {% if from_post %}
+                    <p class="text-white">
+                        <i class="fas fa-info-circle"></i>
+                        خرید با موفقیت انجام شد، بیشتر بازی کن تا جایزه بیشتری ببری!
+                    </p>
+                    <a href="{% url 'core:home' %}" class="btn btn-outline-info w-100">میخوام امتیاز جمع کنم</a>
+                {% else %}
+                    {% if request.user.userwallet.balance < asset.price %}
+                        <p class="text-white">
+                            <i class="fas fa-info-circle"></i>
+                            موجودی دوزکوین شما کافی نیست، برای خرید این آیتم باید دوزکوین بیشتری جمع کنی!
+                        </p>
+                        <a href="{% url 'core:home' %}" class="btn btn-outline-info w-100">میخوام امتیاز جمع کنم</a>
+                    {% else %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-info w-100">خرید</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-12">
+
+            <a href="#" class="btn btn-secondary p-2 border-none">
+                بازگشت
+            </a>
+
+        </div>
+    </div>
+{% endblock %}

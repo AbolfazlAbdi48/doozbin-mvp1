@@ -12,7 +12,7 @@
                 <img src="{% static 'appstatics/img/cute-tiger.png' %}" alt="" class="box-pic">
                 <p class="box-balance" dir="rtl">
                     <img src="{% static 'appstatics/img/coin-1.png' %}" alt="">
-                    850 دوزکوین
+                     {{ request.user.userwallet.balance }} دوزکوین
                 </p>
             </div>
         </div>
@@ -26,14 +26,22 @@
                             <img src="{{ asset.logo.url }}" alt="">
                             <div dir="rtl" class="ms-3 text-right mt-2">
                                 <a href="#" class="input-text text-center">{{ asset.title }}</a>
-                                <p class="text-secondary">{{ asset.description|truncatewords:5 }}</p>
+                                {% if asset.limit < 11 and asset.limit > 0 %}
+                                    <p class="text-secondary">فقط {{ asset.limit }} تا از این مونده!</p>
+                                {% else %}
+                                    <p class="text-secondary">{{ asset.description|truncatewords:5 }}</p>
+                                {% endif %}
                             </div>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-outline-info btn-sm">
-                                <img src="{% static 'appstatics/img/coin-1.png' %}">
-                                {{ asset.price }}
-                            </a>
+                            {% if asset.limit > 0 %}
+                                <a href="{% url 'brand:buy-asset' asset.pk %}" class="btn btn-outline-info btn-sm">
+                                    <img src="{% static 'appstatics/img/coin-1.png' %}">
+                                    {{ asset.price }}
+                                </a>
+                            {% else %}
+                                <button class="btn btn-outline-secondary btn-sm" disabled>تمام شده</button>
+                            {% endif %}
                         </div>
                     </div>
                     <hr class="bg-secondary"/>

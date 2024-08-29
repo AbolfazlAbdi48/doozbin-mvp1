@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.http import Http404
@@ -100,6 +101,7 @@ def complete_register_view(request):
     return render(request, 'account/complete_register.html', context)
 
 
+@login_required
 def user_profile_view(request):
     """
     TODO: login required

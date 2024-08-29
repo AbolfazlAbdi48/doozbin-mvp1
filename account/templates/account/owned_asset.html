@@ -12,7 +12,7 @@
                 <img src="{% static 'appstatics/img/cute-tiger.png' %}" alt="" class="box-pic">
                 <p class="box-balance" dir="rtl">
                     <img src="{% static 'appstatics/img/coin-1.png' %}" alt="">
-                    850 دوزکوین
+                    {{ request.user.userwallet.balance }} دوزکوین
                 </p>
             </div>
         </div>
@@ -26,7 +26,7 @@
                             <img src="{{ asset.asset.logo.url }}" alt="">
                             <div dir="rtl" class="ms-3 text-right mt-2">
                                 <a href="#" class="input-text text-center">{{ asset.asset.title }}</a>
-                                <p class="text-secondary">{{ asset.created }}</p>
+                                <p class="text-white">{{ asset.asset.value }}</p>
                             </div>
                         </div>
                         <div>

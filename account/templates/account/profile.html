@@ -12,7 +12,7 @@
                 <img src="{% static 'appstatics/img/cute-tiger.png' %}" alt="" class="box-pic">
                 <p class="box-balance" dir="rtl">
                     <img src="{% static 'appstatics/img/coin-1.png' %}" alt="">
-                    850 دوزکوین
+                     {{ request.user.userwallet.balance }} دوزکوین
                 </p>
             </div>
         </div>
