@@ -8,9 +8,6 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 from account.models import UserScan
-from ultralytics import YOLO
-
-model = YOLO("D:\Abolfazl\Projects\Doozbin\webapp\mvp-1\\backend\\account\\best_detect_digi.pt")
 
 
 # Create your views here.
@@ -24,6 +21,7 @@ def scan_img_view(request):
     TODO: login required
     TODO: check request is ajax
     TODO: add coin to user wallet
+    TODO: connect ai model
     """
     data = json.loads(request.body)
     image_data = data['image']
@@ -42,15 +40,4 @@ def scan_img_view(request):
         scanned_img=image_file
     )
     scan.save()
-
-    results = model(f"http://127.0.0.1:8000{scan.scanned_img.url}")
-
-    print('-----------------')
-    print(results)
-    print('-----------------')
-
-    if results[0].boxes.conf[0] >= 0.7:
-        print('ok')
-    else:
-        print('no')
     return JsonResponse({'status': 'OK'})

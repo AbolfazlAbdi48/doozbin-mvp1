@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "B_YEKAN";
+    src: url("/static/appstatics/font/B_Yekan/Yekan.ttf") format("truetype");
+}
+
+body {
+    font-family: "B_YEKAN" !important;
+    direction: rtl;
+}
+
 body,
 html {
     margin: 0;
@@ -64,7 +74,6 @@ html {
     max-width: 100%;
     height: auto;
 }
-
 
 
 :root {

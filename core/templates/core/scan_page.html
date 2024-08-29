@@ -1,21 +1,98 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>دوزبین | اسکن کن، جایزه ببر</title>
+    <link rel="stylesheet" href="{% static 'appstatics/css/playstyle.css' %}">
 </head>
 
 <body>
 
-<div style="display: flex; flex-direction: column; align-items: center;"></div>
-
-<video autoplay id="video" style="width: 700px;"></video>
-
-<div id="snap">capture</div>
+<video class="fullscreen-video" id="video" autoplay></video>
 
 <canvas id="canvas" width="640px" height="480px"></canvas>
+
+<div class="icon">
+    <img src="{% static 'appstatics/img/coin-point-profile-pic.png' %}" alt="Icon" width="70px" height="50px">
+</div>
+
+<div class="bottom-menu">
+    <nav class="tab-bar">
+        <ul class="tab-bar__tabs">
+            <li class="tab-bar__tab">
+                <a class="tab-bar__tab-link" href="#home" aria-current="page">
+                    <svg class="tab-bar__tab-icon tab-bar__tab-icon--home" viewBox="0 0 24 24" width="24px"
+                         height="24px" aria-hidden="true">
+                        <g class="tab-bar__tab-icon-1" fill="var(--focus-t)" stroke="currentColor" stroke-width="2"
+                           stroke-linejoin="round">
+                            <polygon points="12 1,23 10,23 23,16 23,16 14,8 14,8 23,1 23,1 10"/>
+                        </g>
+                    </svg>
+                    <span class="tab-bar__tab-name">صفحه اول</span>
+                </a>
+            </li>
+            <li class="tab-bar__tab">
+                <a class="tab-bar__tab-link" href="#videos">
+                    <svg class="tab-bar__tab-icon tab-bar__tab-icon--videos" viewBox="0 0 24 24" width="24px"
+                         height="24px" aria-hidden="true">
+                        <g fill="var(--focus-t)" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                           stroke-linejoin="round">
+                            <line class="tab-bar__tab-icon-1" x1="3" y1="1" x2="21" y2="1"/>
+                            <line x1="2" y1="5" x2="22" y2="5"/>
+                            <g class="tab-bar__tab-icon-2" transform="translate(1,9)">
+                                <polygon points="9 3,15 7.5,9 11"/>
+                                <rect rx="2" ry="2" width="22" height="14"/>
+                                <polygon class="tab-bar__tab-icon-3" opacity="0" points="9 3,15 7.5,9 11"/>
+                            </g>
+                        </g>
+                    </svg>
+                    <span class="tab-bar__tab-name">ویدیوها</span>
+                </a>
+            </li>
+            <li class="tab-bar__tab">
+                <a class="tab-bar__tab-link" href="#books">
+                    <svg class="tab-bar__tab-icon tab-bar__tab-icon--books" viewBox="0 0 24 24" width="24px"
+                         height="24px" aria-hidden="true">
+                        <g class="tab-bar__tab-icon-1" fill="var(--focus-t)" stroke="currentColor" stroke-width="2"
+                           stroke-linecap="round" stroke-linejoin="round">
+                            <rect class="tab-bar__tab-icon-2" x="1" y="1" rx="2" ry="2" width="11" height="19"/>
+                            <rect class="tab-bar__tab-icon-3" x="12" y="1" rx="2" ry="2" width="11" height="19"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                        </g>
+                    </svg>
+                    <span class="tab-bar__tab-name">کتاب ها</span>
+                </a>
+            </li>
+            <li class="tab-bar__tab">
+                <a class="tab-bar__tab-link" href="#profile">
+                    <svg class="tab-bar__tab-icon tab-bar__tab-icon--profile" viewBox="0 0 24 24" width="24px"
+                         height="24px" aria-hidden="true">
+                        <g fill="var(--focus-t)" stroke="currentColor" stroke-width="2">
+                            <circle class="tab-bar__tab-icon-1" cx="12" cy="6.5" r="5.5"/>
+                            <path
+                                    d="M20.473,23H3.003c-1.276,0-2.228-1.175-1.957-2.422,.705-3.239,3.029-8.578,10.693-8.578s9.987,5.336,10.692,8.575c.272,1.248-.681,2.425-1.959,2.425Z"/>
+                        </g>
+                    </svg>
+                    <span class="tab-bar__tab-name">حساب کاربری</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<button class="action-button" id="snap">
+    <img src="{% static 'appstatics/img/trigger1.png' %}" alt="Button Icon" width="50px" height="50px">
+</button>
+
+<div class="centered-frame">
+    <img src="{% static 'appstatics/img/aiming.png' %}" class="centered-img" alt="" width="300px" height="300px">
+</div>
+
+
+<script src="{% static 'appstatics/js/script.js' %}"></script>
 
 
 <script>
@@ -34,7 +111,7 @@
 
     async function startWebcam() {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({video: true})
+            const stream = await navigator.mediaDevices.getUserMedia(constraints)
             video.srcObject = stream
             window.stream = stream
         } catch (e) {
@@ -44,18 +121,19 @@
 
     var context = canvas.getContext("2d")
     snap.addEventListener('click', () => {
-        context.drawImage(video, 0, 0, 640, 480)
-
-
-        var imgData = canvas.toDataURL('image/png')
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/png');
 
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '/scan/img/', true);
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));  // برای ارسال CSRF token در Django
-        xhr.send(JSON.stringify({image: imgData}));
-    })
+        xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+        xhr.send(JSON.stringify({image: imageData}));
+    });
 
+    // تابع برای دریافت CSRF token در Django
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
