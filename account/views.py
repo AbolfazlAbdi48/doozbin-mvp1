@@ -96,3 +96,10 @@ def complete_register_view(request):
         'form': form
     }
     return render(request, 'account/complete_register.html', context)
+
+
+def user_profile_view(request):
+    """
+    TODO: login required
+    """
+    return render(request, 'account/profile.html')
