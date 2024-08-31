@@ -83,9 +83,15 @@
     </nav>
 </div>
 
+<div>
+
+</div>
+
 <button class="action-button" id="snap">
     <img src="{% static 'appstatics/img/trigger1.png' %}" alt="Button Icon" width="50px" height="50px">
 </button>
+<img src="{% static 'appstatics/img/tossing-coins-the-witcher-nightmare-of-the-wolf.gif' %}" class="fixed-gif"
+     id="success-gif" style="display: none">
 
 <div class="centered-frame">
     <img src="{% static 'appstatics/img/aiming.png' %}" class="centered-img" alt="" width="300px" height="300px">
@@ -93,63 +99,71 @@
 
 
 <script src="{% static 'appstatics/js/script.js' %}"></script>
+<script src="{% static 'appstatics/js/jquery-3.6.0.min.js' %}"></script>
 
 
 <script>
-    const video = document.getElementById("video")
-    const canvas = document.getElementById("canvas")
-    const snap = document.getElementById("snap")
+    $(document).ready(function () {
+        const video = document.getElementById("video")
+        const canvas = document.getElementById("canvas")
+        const snap = document.getElementById("snap")
+        $('#success-gif').fadeIn("slow", "swing")
+        setTimeout(function () {
+            $('#success-gif').fadeOut("slow", "swing")
+            console.log('hello')
+        }, 1000)
 
 
-    const constraints = {
-        audio: false,
-        video: {
-            width: {min: 1024, ideal: 1280},
-            height: {ideal: 720}
-        }
-    }
-
-    async function startWebcam() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia(constraints)
-            video.srcObject = stream
-            window.stream = stream
-        } catch (e) {
-            console.log(e.toString())
-        }
-    }
-
-    var context = canvas.getContext("2d")
-    snap.addEventListener('click', () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = canvas.toDataURL('image/png');
-
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/scan/img/', true);
-        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
-        xhr.send(JSON.stringify({image: imageData}));
-    });
-
-    // تابع برای دریافت CSRF token در Django
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+        const constraints = {
+            audio: false,
+            video: {
+                width: {min: 1024, ideal: 1280},
+                height: {ideal: 720}
             }
         }
-        return cookieValue;
-    }
 
-    startWebcam()
+        async function startWebcam() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints)
+                video.srcObject = stream
+                window.stream = stream
+            } catch (e) {
+                console.log(e.toString())
+            }
+        }
+
+        var context = canvas.getContext("2d")
+        snap.addEventListener('click', () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/png');
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/scan/img/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            xhr.send(JSON.stringify({image: imageData}));
+        });
+
+        // تابع برای دریافت CSRF token در Django
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        startWebcam()
+    })
 </script>
 
 </body>

@@ -435,3 +435,13 @@ body {
         transform: translateX(-1px);
     }
 }
+
+.fixed-gif {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    z-index: 10000;
+}

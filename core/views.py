@@ -1,4 +1,5 @@
 import json
+import os
 import base64
 from io import BytesIO
 from PIL import Image
@@ -8,6 +9,11 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 from account.models import UserScan
+from ultralytics import YOLO
+from django.conf import settings
+
+model_path = os.path.join(settings.BASE_DIR, 'static', 'models', 'best_detect_digi.pt')
+model = YOLO(model_path)
 
 
 # Create your views here.
@@ -30,14 +36,29 @@ def scan_img_view(request):
 
     image_io = BytesIO()
     image.save(image_io, format='PNG')
-    image_file = ContentFile(image_io.getvalue(), 'profile.png')
+    image_file = ContentFile(image_io.getvalue(), 'brand.png')
 
     scan = UserScan(
         user=request.user,
         coin=10,
         description="digikala billboard",
-        accepted=True,
+        accepted=False,
         scanned_img=image_file
     )
     scan.save()
+
+    results = model(scan.scanned_img.path)
+    detected = False
+    if results:
+        for result in results:
+            if result.boxes:
+                for box in result.boxes:
+                    if box.conf[0].item() >= 0.7:
+                        detected = True
+                        print('yes')
+                        # TODO: set accepted as False
+                        break
+                if detected:
+                    break
+
     return JsonResponse({'status': 'OK'})
