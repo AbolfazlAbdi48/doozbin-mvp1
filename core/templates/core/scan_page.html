@@ -12,13 +12,13 @@
 <body>
 <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 
-<dotlottie-player src="https://lottie.host/96c81b9f-87e0-422e-b10f-ee42eb9f0b7b/sLiDkUlwc4.json"
+<dotlottie-player src="{% static 'appstatics/js/sLiDkUlwc4.json' %}?v=12"
                   background="transparent" speed="1"
-                  style="display:none;position: fixed; transform: translate(-50%, -50%);top: 30%; left: 50%;z-index:2;width: 300px; height: 300px;"
+                  style="display: none;position: fixed; transform: translate(-50%, -50%);top: 30%; left: 50%;z-index:2;width: 300px; height: 300px;"
                   loop
                   autoplay id="coin"></dotlottie-player>
 
-<dotlottie-player src="https://lottie.host/ce8087e4-9dbb-4096-bd9a-d6575240fc42/PB2Jm6jLtP.json"
+<dotlottie-player src="{% static 'appstatics/js/PB2Jm6jLtP.json' %}?v=12"
                   background="transparent" speed="1"
                   style="display: none;position: fixed; transform: translate(-50%, -50%);top: 30%; left: 50%;z-index:2;width: 300px; height: 300px;"
                   loop
@@ -176,7 +176,7 @@
                     } else {
                         $('#warning-gif').fadeIn()
                         $('#warning-message').fadeIn()
-                        $('#warning-gif').delay(1000).fadeOut()
+                        $('#warning-gif').delay(1500).fadeOut()
                         $('#warning-message').delay(3000).fadeOut()
                     }
                 },
