@@ -3,6 +3,7 @@ import os
 import base64
 from io import BytesIO
 from PIL import Image
+from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 
 from django.http import JsonResponse
@@ -17,6 +18,7 @@ model = YOLO(model_path)
 
 
 # Create your views here.
+@login_required
 def scan_page_view(request):
     context = {}
     return render(request, 'core/scan_page.html', context)

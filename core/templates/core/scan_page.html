@@ -11,7 +11,7 @@
 
 <body>
 
-<video class="fullscreen-video" id="video" autoplay></video>
+<video class="fullscreen-video" id="video" autoplay playsinline></video>
 
 <canvas id="canvas" width="640px" height="480px"></canvas>
 
@@ -131,6 +131,10 @@
                 console.log(e.toString())
             }
         }
+
+        video.onloadedmetadata = () => {
+            video.play();
+        };
 
         var context = canvas.getContext("2d")
         snap.addEventListener('click', () => {
