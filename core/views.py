@@ -34,10 +34,11 @@ def scan_img_view(request):
         image_data = data['image']
         image_data = image_data.split(',')[1]
         image = Image.open(BytesIO(base64.b64decode(image_data)))
-        try:
-            wallet = UserWallet.objects.get(user=request.user)
-        except wallet.DoesNotExist:
-            wallet = UserWallet.objects.create(user=request.user, balance=0)
+        # try:
+        #     wallet = UserWallet.objects.get(user=request.user)
+        # except wallet.DoesNotExist:
+        #     wallet = UserWallet.objects.create(user=request.user, balance=0)
+        wallet, created = UserWallet.objects.get_or_create(user=request.user)
 
         image_io = BytesIO()
         image.save(image_io, format='PNG')

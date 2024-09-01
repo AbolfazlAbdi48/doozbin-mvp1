@@ -16,7 +16,7 @@ class User(AbstractUser):
 
 class UserWallet(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, verbose_name='کاربر')
-    balance = models.IntegerField(verbose_name='موجودی')
+    balance = models.IntegerField(default=0, verbose_name='موجودی')
     created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     update = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
 
