@@ -42,7 +42,7 @@ def scan_img_view(request):
 
     scan = UserScan(
         user=request.user,
-        coin=1,
+        coin=0,
         description="first scan",
         accepted=False,
         scanned_img=image_file
