@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "B_YEKAN";
+    src: url("/static/appstatics/font/B_Yekan/Yekan.ttf") format("truetype");
+}
+
 :root {
     --hue: 223;
     --bg: hsl(var(--hue), 10%, 90%);
@@ -15,7 +20,7 @@ body {
     background-color: var(--bg);
     color: var(--fg);
     display: flex;
-    font: 1em/1.5 "Shabnam", sans-serif;
+    font: 1em/1.5 "B_YEKAN";
     height: 100vh;
     transition: background-color var(--trans-dur), color var(--trans-dur);
 }
