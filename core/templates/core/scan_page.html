@@ -23,7 +23,7 @@
     <nav class="tab-bar">
         <ul class="tab-bar__tabs">
             <li class="tab-bar__tab">
-                <a class="tab-bar__tab-link" href="#home" aria-current="page">
+                <a class="tab-bar__tab-link" href="{% url 'core:home' %}" aria-current="page">
                     <svg class="tab-bar__tab-icon tab-bar__tab-icon--home" viewBox="0 0 24 24" width="24px"
                          height="24px" aria-hidden="true">
                         <g class="tab-bar__tab-icon-1" fill="var(--focus-t)" stroke="currentColor" stroke-width="2"
@@ -31,11 +31,11 @@
                             <polygon points="12 1,23 10,23 23,16 23,16 14,8 14,8 23,1 23,1 10"/>
                         </g>
                     </svg>
-                    <span class="tab-bar__tab-name">صفحه اول</span>
+                    <span class="tab-bar__tab-name">خانه</span>
                 </a>
             </li>
             <li class="tab-bar__tab">
-                <a class="tab-bar__tab-link" href="#videos">
+                <a class="tab-bar__tab-link" href="{% url 'brand:shop' %}">
                     <svg class="tab-bar__tab-icon tab-bar__tab-icon--videos" viewBox="0 0 24 24" width="24px"
                          height="24px" aria-hidden="true">
                         <g fill="var(--focus-t)" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -49,7 +49,7 @@
                             </g>
                         </g>
                     </svg>
-                    <span class="tab-bar__tab-name">ویدیوها</span>
+                    <span class="tab-bar__tab-name">فروشگاه</span>
                 </a>
             </li>
             <li class="tab-bar__tab">
@@ -63,11 +63,11 @@
                             <line x1="12" y1="21" x2="12" y2="23"/>
                         </g>
                     </svg>
-                    <span class="tab-bar__tab-name">کتاب ها</span>
+                    <span class="tab-bar__tab-name">لیدر برد</span>
                 </a>
             </li>
             <li class="tab-bar__tab">
-                <a class="tab-bar__tab-link" href="#profile">
+                <a class="tab-bar__tab-link" href="{% url 'account:user-profile' %}">
                     <svg class="tab-bar__tab-icon tab-bar__tab-icon--profile" viewBox="0 0 24 24" width="24px"
                          height="24px" aria-hidden="true">
                         <g fill="var(--focus-t)" stroke="currentColor" stroke-width="2">
@@ -76,7 +76,7 @@
                                     d="M20.473,23H3.003c-1.276,0-2.228-1.175-1.957-2.422,.705-3.239,3.029-8.578,10.693-8.578s9.987,5.336,10.692,8.575c.272,1.248-.681,2.425-1.959,2.425Z"/>
                         </g>
                     </svg>
-                    <span class="tab-bar__tab-name">حساب کاربری</span>
+                    <span class="tab-bar__tab-name">پروفایل</span>
                 </a>
             </li>
         </ul>
@@ -143,12 +143,6 @@
             canvas.height = video.videoHeight;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             const imageData = canvas.toDataURL('image/png');
-
-            {#const xhr = new XMLHttpRequest();#}
-            {#xhr.open('POST', '/scan/img/', true);#}
-            {#xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');#}
-            {#xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));#}
-            {#xhr.send(JSON.stringify({image: imageData}));#}
 
             $.ajax({
                 url: '/scan/img/',

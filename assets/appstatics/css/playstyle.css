@@ -191,7 +191,8 @@ body {
 }
 
 .tab-bar__tab-link[aria-current=page] {
-    color: var(--focus);
+    color: linear-gradient(90deg, rgba(0, 207, 255, 1) 0%, rgba(82, 50, 246, 1) 50%, rgba(139, 108, 187, 1) 100%);
+    border: none;
 }
 
 .tab-bar__tab-link[aria-current=page] .tab-bar__tab-icon {
