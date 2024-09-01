@@ -149,6 +149,7 @@
                 type: 'POST',
                 contentType: 'application/json;charset=UTF-8',
                 headers: {
+                    "X-Requested-With": "XMLHttpRequest",
                     'X-CSRFToken': getCookie('csrftoken')
                 },
                 data: JSON.stringify({image: imageData}),
