@@ -12,7 +12,7 @@
                 <img src="{% static 'appstatics/img/cute-tiger.png' %}" alt="" class="box-pic">
                 <p class="box-balance" dir="rtl">
                     <img src="{% static 'appstatics/img/coin-1.png' %}" alt="">
-                     {{ request.user.userwallet.balance }} دوزکوین
+                    {{ request.user.userwallet.balance }} دوزکوین
                 </p>
             </div>
         </div>
@@ -34,10 +34,10 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex justify-content-center align-items-center">
                         <img src="{% static 'appstatics/img/bag.png' %}" alt="">
-                        <a href="#" class="input-text text-center my-3 ms-3">دارایی ها</a>
+                        <a href="{% url 'account:user-asset' %}" class="input-text text-center my-3 ms-3">دارایی ها</a>
                     </div>
                     <div>
-                        <a href="#">
+                        <a href="{% url 'account:user-asset' %}">
                             <i class="fas fa-angle-left text-secondary mt-2"></i>
                         </a>
                     </div>
