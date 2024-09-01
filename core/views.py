@@ -33,10 +33,8 @@ def scan_img_view(request):
     """
     data = json.loads(request.body)
     image_data = data['image']
-    print(image_data)
     image_data = image_data.split(',')[1]
     image = Image.open(BytesIO(base64.b64decode(image_data)))
-    print(image)
 
     image_io = BytesIO()
     image.save(image_io, format='PNG')
@@ -44,7 +42,7 @@ def scan_img_view(request):
 
     scan = UserScan(
         user=request.user,
-        coin=0,
+        coin=1,
         description="first scan",
         accepted=False,
         scanned_img=image_file
