@@ -10,6 +10,28 @@
 </head>
 
 <body>
+<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
+<dotlottie-player src="https://lottie.host/96c81b9f-87e0-422e-b10f-ee42eb9f0b7b/sLiDkUlwc4.json"
+                  background="transparent" speed="1"
+                  style="display:none;position: fixed; transform: translate(-50%, -50%);top: 30%; left: 50%;z-index:2;width: 300px; height: 300px;"
+                  loop
+                  autoplay id="coin"></dotlottie-player>
+
+<dotlottie-player src="https://lottie.host/ce8087e4-9dbb-4096-bd9a-d6575240fc42/PB2Jm6jLtP.json"
+                  background="transparent" speed="1"
+                  style="display: none;position: fixed; transform: translate(-50%, -50%);top: 30%; left: 50%;z-index:2;width: 300px; height: 300px;"
+                  loop
+                  autoplay id="warning-gif"></dotlottie-player>
+<div class="message" id="warning-message" style="bottom: 45%!important;display: none">
+    <p>&#128530;اینکه دیجیکالا نیست، دوباره تلاش کن!!!</p>
+</div>
+
+<div class="message" id="success-message" style="display: none">
+    <img src="{% static 'appstatics/img/coin-1.png' %}" style="margin: 0 0 0 0.5rem">
+    <p>تبریک، 25 دوزکوین دریافت کردی!!!</p>
+</div>
+
 
 <video class="fullscreen-video" id="video" autoplay playsinline></video>
 
@@ -82,16 +104,13 @@
         </ul>
     </nav>
 </div>
-
-<div>
-
-</div>
+<div class="loader" style="display: none" id="loader"></div>
 
 <button class="action-button" id="snap">
     <img src="{% static 'appstatics/img/trigger1.png' %}" alt="Button Icon" width="50px" height="50px">
 </button>
-<img src="{% static 'appstatics/img/tossing-coins-the-witcher-nightmare-of-the-wolf.gif' %}" class="fixed-gif"
-     id="success-gif" style="display: none">
+{#<img src="{% static 'appstatics/img/tossing-coins-the-witcher-nightmare-of-the-wolf.gif' %}" class="fixed-gif"#}
+{#     id="success-gif" style="display: none">#}
 
 <div class="centered-frame">
     <img src="{% static 'appstatics/img/aiming.png' %}" class="centered-img" alt="" width="300px" height="300px">
@@ -107,19 +126,13 @@
         const video = document.getElementById("video")
         const canvas = document.getElementById("canvas")
         const snap = document.getElementById("snap")
-        $('#success-gif').fadeIn("slow", "swing")
-        setTimeout(function () {
-            $('#success-gif').fadeOut("slow", "swing")
-            console.log('hello')
-        }, 1000)
-
 
         const constraints = {
             audio: false,
             video: {
                 width: {min: 1024, ideal: 1280},
                 height: {ideal: 720},
-                facingMode: {exact: 'environment'}
+                {#facingMode: {exact: 'environment'}#}
             }
         }
 
@@ -153,11 +166,26 @@
                     'X-CSRFToken': getCookie('csrftoken')
                 },
                 data: JSON.stringify({image: imageData}),
+                beforeSend: function () {
+                    $('#loader').show()
+                },
                 success: function (response) {
-                    alert(response);
+                    $('#loader').hide()
+                    if (response['status'] === true) {
+                        $('#coin').show()
+                        $("#coin").delay("4500").fadeOut("slow");
+                        $('#success-message').fadeIn(800)
+                        $("#success-message").delay(3000).fadeOut("slow");
+                    } else {
+                        $('#warning-gif').fadeIn()
+                        $('#warning-message').fadeIn()
+                        $('#warning-gif').delay(1000).fadeOut()
+                        $('#warning-message').delay(3000).fadeOut()
+                    }
                 },
                 error: function (xhr, status, error) {
                     alert(error);
+                    $('#loader').hide()
                 }
             });
         });

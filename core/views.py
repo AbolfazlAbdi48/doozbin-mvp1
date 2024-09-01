@@ -60,16 +60,16 @@ def scan_img_view(request):
                         for box in result.boxes:
                             if box.conf[0].item() >= 0.7:
                                 scan.description = "digikala"
-                                scan.coin = 15
+                                scan.coin = 25
                                 scan.accepted = True
                                 scan.save()
-                                wallet.balance += 5
+                                wallet.balance += 25
                                 wallet.save()
                                 detected = True
                                 break
                         if detected:
                             break
 
-            return JsonResponse({'status': 'OK'})
+            return JsonResponse({'status': detected})
         return JsonResponse({'status': 'Invalid request'}, status=400)
     return HttpResponseBadRequest('Invalid request')
