@@ -156,7 +156,7 @@
             canvas.height = video.videoHeight;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             const imageData = canvas.toDataURL('image/png');
-
+            $('#loader').show()
             $.ajax({
                 url: '/scan/img/',
                 type: 'POST',
@@ -166,9 +166,6 @@
                     'X-CSRFToken': getCookie('csrftoken')
                 },
                 data: JSON.stringify({image: imageData}),
-                beforeSend: function () {
-                    $('#loader').show()
-                },
                 success: function (response) {
                     $('#loader').hide()
                     if (response['status'] === true) {
