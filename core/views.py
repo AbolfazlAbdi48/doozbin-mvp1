@@ -45,7 +45,7 @@ def scan_img_view(request):
     scan = UserScan(
         user=request.user,
         coin=0,
-        description="",
+        description="first scan",
         accepted=False,
         scanned_img=image_file
     )
@@ -58,11 +58,11 @@ def scan_img_view(request):
             if result.boxes:
                 for box in result.boxes:
                     if box.conf[0].item() >= 0.7:
-                        detected = True
                         scan.description = "digikala"
                         scan.coin = 15
                         scan.accepted = True
                         scan.save()
+                        detected = True
                         break
                 if detected:
                     break

@@ -144,8 +144,6 @@
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             const imageData = canvas.toDataURL('image/png');
 
-            alert(imageData)
-
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/scan/img/', true);
             xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
