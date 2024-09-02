@@ -141,8 +141,7 @@
             };
             xhr.send(JSON.stringify({image: imageData}));
         });
-
-        // تابع برای دریافت CSRF token در Django
+        
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {

@@ -34,10 +34,6 @@ def scan_img_view(request):
         image_data = data['image']
         image_data = image_data.split(',')[1]
         image = Image.open(BytesIO(base64.b64decode(image_data)))
-        # try:
-        #     wallet = UserWallet.objects.get(user=request.user)
-        # except wallet.DoesNotExist:
-        #     wallet = UserWallet.objects.create(user=request.user, balance=0)
         wallet, created = UserWallet.objects.get_or_create(user=request.user)
 
         image_io = BytesIO()
@@ -53,23 +49,38 @@ def scan_img_view(request):
         )
         scan.save()
 
+        # results = model(scan.scanned_img.path)
+        # detected = False
+        # if results:
+        #     for result in results:
+        #         if result.boxes:
+        #             for box in result.boxes:
+        #                 if box.conf[0].item() >= 0.7:
+        #                     scan.description = f"digikala, conf: {box.conf[0].item()}"
+        #                     scan.coin = 25
+        #                     scan.accepted = True
+        #                     scan.save(update_fields=['description', 'coin', 'accepted'])
+        #                     wallet.balance += 25
+        #                     wallet.save(update_fields=['balance'])
+        #                     detected = True
+        #                     break
+        #             if detected:
+        #                 break
+
         results = model(scan.scanned_img.path)
-        detected = False
-        if results:
-            for result in results:
-                if result.boxes:
-                    for box in result.boxes:
-                        if box.conf[0].item() >= 0.7:
-                            scan.description = "digikala"
-                            scan.coin = 25
-                            scan.accepted = True
-                            scan.save()
-                            wallet.balance += 25
-                            wallet.save()
-                            detected = True
-                            break
-                    if detected:
-                        break
+        detected = any(
+            box.conf[0].item() >= 0.7 for result in results for box in result.boxes
+        ) if results else False
+
+        if detected:
+            highest_conf = max(
+                box.conf[0].item() for result in results for box in result.boxes if box.conf[0].item() >= 0.7)
+            scan.description = f"digikala, conf: {highest_conf}"
+            scan.coin = 25
+            scan.accepted = True
+            scan.save(update_fields=['description', 'coin', 'accepted'])
+            wallet.balance += 25
+            wallet.save(update_fields=['balance'])
 
         return JsonResponse({'status': detected})
     return JsonResponse({'status': 'Invalid request'}, status=400)
