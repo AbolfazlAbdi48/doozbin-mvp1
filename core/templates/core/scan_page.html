@@ -19,6 +19,10 @@
             text-align: center;
             line-height: 60px;
         }
+
+        .message {
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -107,35 +111,35 @@
             canvas.height = video.videoHeight;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             const imageData = canvas.toDataURL('image/png');
+
             $('#loader').show()
-            $.ajax({
-                url: '/scan/img/',
-                type: 'POST',
-                contentType: 'application/json;charset=UTF-8',
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                data: JSON.stringify({image: imageData}),
-                success: function (response) {
-                    $('#loader').hide()
-                    if (response['status'] === true) {
-                        $('#coin').show()
-                        $("#coin").delay("4500").fadeOut("slow");
-                        $('#success-message').fadeIn(800)
-                        $("#success-message").delay(3000).fadeOut("slow");
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/scan/img/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        $('#loader').hide()
+                        if (response['status'] === true) {
+                            $('#coin').show()
+                            $("#coin").delay("4500").fadeOut("slow");
+                            $('#success-message').fadeIn(800)
+                            $("#success-message").delay(3000).fadeOut("slow");
+                        } else {
+                            $('#warning-gif').fadeIn()
+                            $("#warning-message").fadeIn()
+                            $("#warning-gif").delay(1500).fadeOut()
+                            $('#warning-message').delay(3000).fadeOut()
+                        }
                     } else {
-                        $('#warning-gif').fadeIn()
-                        $('#warning-message').fadeIn()
-                        $('#warning-gif').delay(1500).fadeOut()
-                        $('#warning-message').delay(3000).fadeOut()
+                        alert('error')
                     }
-                },
-                error: function (xhr, status, error) {
-                    alert(error);
-                    $('#loader').hide()
                 }
-            });
+            };
+            xhr.send(JSON.stringify({image: imageData}));
         });
 
         // تابع برای دریافت CSRF token در Django
