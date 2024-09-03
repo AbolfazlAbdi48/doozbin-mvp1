@@ -85,8 +85,8 @@
         const constraints = {
             audio: false,
             video: {
-                width: {min: 1024, ideal: 1280},
-                height: {ideal: 720},
+                width: {min: 640, ideal: 640},
+                height: {ideal: 480},
                 facingMode: {exact: 'environment'}
             }
         }
@@ -107,10 +107,10 @@
 
         var context = canvas.getContext("2d")
         snap.addEventListener('click', () => {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+            canvas.width = video.videoWidth / 2;
+            canvas.height = video.videoHeight / 2;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = canvas.toDataURL('image/png');
+            const imageData = canvas.toDataURL('image/jpeg', 0.7);
 
             $('#loader').show()
             const xhr = new XMLHttpRequest();
@@ -141,7 +141,7 @@
             };
             xhr.send(JSON.stringify({image: imageData}));
         });
-        
+
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
