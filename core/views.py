@@ -82,6 +82,6 @@ def scan_img_view(request):
             wallet.balance += 25
             wallet.save(update_fields=['balance'])
 
-        return JsonResponse({'status': False})
+        return JsonResponse({'status': detected})
     return JsonResponse({'status': 'Invalid request'}, status=400)
     # return HttpResponseBadRequest('Invalid request')
