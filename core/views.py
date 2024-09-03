@@ -67,20 +67,20 @@ def scan_img_view(request):
         #             if detected:
         #                 break
 
-        # results = model(scan.scanned_img.path)
-        # detected = any(
-        #     box.conf[0].item() >= 0.7 for result in results for box in result.boxes
-        # ) if results else False
-        #
-        # if detected:
-        #     highest_conf = max(
-        #         box.conf[0].item() for result in results for box in result.boxes if box.conf[0].item() >= 0.7)
-        #     scan.description = f"digikala, conf: {highest_conf}"
-        #     scan.coin = 25
-        #     scan.accepted = True
-        #     scan.save(update_fields=['description', 'coin', 'accepted'])
-        #     wallet.balance += 25
-        #     wallet.save(update_fields=['balance'])
+        results = model(scan.scanned_img.path)
+        detected = any(
+            box.conf[0].item() >= 0.7 for result in results for box in result.boxes
+        ) if results else False
+
+        if detected:
+            highest_conf = max(
+                box.conf[0].item() for result in results for box in result.boxes if box.conf[0].item() >= 0.7)
+            scan.description = f"digikala, conf: {highest_conf}"
+            scan.coin = 25
+            scan.accepted = True
+            scan.save(update_fields=['description', 'coin', 'accepted'])
+            wallet.balance += 25
+            wallet.save(update_fields=['balance'])
 
         return JsonResponse({'status': False})
     return JsonResponse({'status': 'Invalid request'}, status=400)
