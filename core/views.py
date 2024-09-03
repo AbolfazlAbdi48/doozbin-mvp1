@@ -49,24 +49,6 @@ def scan_img_view(request):
         )
         scan.save()
 
-        # results = model(scan.scanned_img.path)
-        # detected = False
-        # if results:
-        #     for result in results:
-        #         if result.boxes:
-        #             for box in result.boxes:
-        #                 if box.conf[0].item() >= 0.7:
-        #                     scan.description = f"digikala, conf: {box.conf[0].item()}"
-        #                     scan.coin = 25
-        #                     scan.accepted = True
-        #                     scan.save(update_fields=['description', 'coin', 'accepted'])
-        #                     wallet.balance += 25
-        #                     wallet.save(update_fields=['balance'])
-        #                     detected = True
-        #                     break
-        #             if detected:
-        #                 break
-
         results = model(scan.scanned_img.path)
         detected = any(
             box.conf[0].item() >= 0.7 for result in results for box in result.boxes
