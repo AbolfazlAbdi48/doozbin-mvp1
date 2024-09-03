@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دوزبین | اسکن کن، جایزه ببر</title>
     <link rel="stylesheet" href="{% static 'appstatics/css/playstyle.css' %}?v=14">
+    <link rel="stylesheet" href="{% static 'appstatics/css/style.css' %}?v=14">
     <link rel="stylesheet" href="{% static 'appstatics/css/nav.css' %}?v=17">
     <style>
         .bottom-menu {
@@ -49,6 +50,16 @@
     <p>تبریک، 25 دوزکوین دریافت کردی!!!</p>
 </div>
 
+<div id="first-scan" style="display: none">
+    <div class="message primary-gradient-bg" id="warning-message"
+         style="bottom: 55%!important;">
+        <h2 id="first-scan-value"></h2>
+    </div>
+
+    <div class="message" id="success-message" style="bottom: 45%!important;">
+        <p> &#128515;ایول، کد ارسال رایگان دیجیکالا برنده شدی!!!</p>
+    </div>
+</div>
 
 <video class="fullscreen-video" id="video" autoplay playsinline></video>
 
@@ -89,7 +100,7 @@
             video: {
                 width: {min: 640, ideal: 640},
                 height: {ideal: 480},
-                facingMode: {exact: 'environment'}
+                {#facingMode: {exact: 'environment'}#}
             }
         }
 
@@ -126,10 +137,16 @@
                         const response = JSON.parse(xhr.responseText);
                         $('#loader').hide()
                         if (response['status'] === true) {
-                            $('#coin').show()
-                            $("#coin").delay("4500").fadeOut("slow");
-                            $('#success-message').fadeIn(800)
-                            $("#success-message").delay(3000).fadeOut("slow");
+                            if (response['first_scan'] === true) {
+                                $('#first-scan').fadeIn("slow")
+                                $('#first-scan-value').text(response['award_val'])
+                                $("#first-scan").delay(5000).fadeOut("slow")
+                            } else {
+                                $('#coin').show()
+                                $("#coin").delay(4500).fadeOut("slow");
+                                $('#success-message').fadeIn(800)
+                                $("#success-message").delay(3000).fadeOut("slow");
+                            }
                         } else {
                             $('#warning-gif').fadeIn()
                             $("#warning-message").fadeIn()

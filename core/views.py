@@ -9,9 +9,11 @@ from django.core.files.base import ContentFile
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render
 
-from account.models import UserScan, UserWallet
+from account.models import UserScan, UserWallet, OwnedAsset
 from ultralytics import YOLO
 from django.conf import settings
+
+from brand.models import Asset
 
 model_path = os.path.join(settings.BASE_DIR, 'static', 'models', 'best_detect_digi.pt')
 model = YOLO(model_path)
@@ -42,8 +44,6 @@ def scan_img_view(request):
 
         scan = UserScan(
             user=request.user,
-            coin=0,
-            description="first scan",
             accepted=False,
             scanned_img=image_file
         )
@@ -53,17 +53,33 @@ def scan_img_view(request):
         detected = any(
             box.conf[0].item() >= 0.7 for result in results for box in result.boxes
         ) if results else False
+        first_scan = False
+        award_val = None
 
         if detected:
             highest_conf = max(
-                box.conf[0].item() for result in results for box in result.boxes if box.conf[0].item() >= 0.7)
-            scan.description = f"digikala, conf: {highest_conf}"
-            scan.coin = 25
+                box.conf[0].item() for result in results for box in result.boxes if box.conf[0].item() >= 0.7
+            )
+            if request.user.userscan_set.count() <= 1:
+                award = Asset.objects.filter(limit__gte=1).first()
+                award.limit -= 1
+                award.save()
+                first_scan = True
+                award_val = award.value
+                OwnedAsset.objects.create(user=request.user, asset=award, price=0)
+                scan.description = f"digikala, first scan, conf: {highest_conf}"
+            else:
+                scan.coin = 25
+                wallet.balance += 25
+                wallet.save(update_fields=['balance'])
+                scan.description = f"digikala, conf: {highest_conf}"
             scan.accepted = True
             scan.save(update_fields=['description', 'coin', 'accepted'])
-            wallet.balance += 25
-            wallet.save(update_fields=['balance'])
 
-        return JsonResponse({'status': detected})
+        return JsonResponse({
+            'status': detected,
+            'first_scan': first_scan,
+            'award_val': award_val
+        })
     return JsonResponse({'status': 'Invalid request'}, status=400)
     # return HttpResponseBadRequest('Invalid request')
