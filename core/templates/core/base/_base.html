@@ -15,21 +15,26 @@
 
     {% endblock %}
 </head>
+{% with request.resolver_match.url_name as url_name %}
+    <body class="body">
 
-<body class="body">
-{% include 'core/base/_nav.html' %}
-<div class="container mt-5 p-4">
-    {% block main_content %}
+    {% if url_name != 'login' and url_name != 'otp-verify' and url_name != 'complete-register' %}
+        {% include 'core/base/_nav.html' %}
+    {% endif %}
+
+    <div class="container mt-5 p-4">
+        {% block main_content %}
+
+        {% endblock %}
+    </div>
+
+    <script src="{% static 'appstatics/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'appstatics/js/script.js' %}"></script>
+
+    {% block meta_js_code %}
 
     {% endblock %}
-</div>
-
-<script src="{% static 'appstatics/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'appstatics/js/script.js' %}"></script>
-
-{% block meta_js_code %}
-
-{% endblock %}
-</body>
+    </body>
+{% endwith %}
 
 </html>

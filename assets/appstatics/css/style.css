@@ -64,10 +64,8 @@ body {
 }
 
 .box-pic {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    /* border: 5px solid white; */
+    width: 85px;
+    height: 90px;
     position: absolute;
     top: -50px;
     left: 50%;

@@ -55,7 +55,9 @@
 <canvas id="canvas" width="640px" height="480px"></canvas>
 
 <div class="icon">
-    <img src="{% static 'appstatics/img/coin-point-profile-pic.png' %}?v=5" alt="Icon" width="70px" height="70px">
+    <a href="{% url 'account:user-profile' %}">
+        <img src="{% static 'appstatics/img/coin-point-profile-pic.png' %}?v=5" alt="Icon" width="70px" height="70px">
+    </a>
 </div>
 
 {% include 'core/base/_nav.html' %}
