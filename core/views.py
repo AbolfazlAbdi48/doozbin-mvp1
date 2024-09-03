@@ -60,7 +60,7 @@ def scan_img_view(request):
             highest_conf = max(
                 box.conf[0].item() for result in results for box in result.boxes if box.conf[0].item() >= 0.7
             )
-            if request.user.userscan_set.filter(accepted=True).count() <= 1:
+            if request.user.userscan_set.filter(accepted=True).count() < 1:
                 award = Asset.objects.filter(limit__gte=1).first()
                 award.limit -= 1
                 award.save()
