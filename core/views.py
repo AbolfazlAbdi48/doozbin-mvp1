@@ -39,7 +39,7 @@ def scan_img_view(request):
         wallet, created = UserWallet.objects.get_or_create(user=request.user)
 
         image_io = BytesIO()
-        image.save(image_io, format='png')
+        image.save(image_io, format='jpeg')
         image_file = ContentFile(image_io.getvalue(), 'brand.png')
 
         scan = UserScan(

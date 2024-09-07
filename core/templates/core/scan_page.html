@@ -123,7 +123,7 @@
             canvas.width = video.videoWidth / 2;
             canvas.height = video.videoHeight / 2;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = canvas.toDataURL('image/PNG', 0.7);
+            const imageData = canvas.toDataURL('image/jpeg', 0.7);
 
             $('#loader').show()
             const xhr = new XMLHttpRequest();
