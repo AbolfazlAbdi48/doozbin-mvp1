@@ -10,6 +10,7 @@ from brand.models import Asset
 # Create your views here.
 class AssetListView(LoginRequiredMixin, ListView):
     model = Asset
+    queryset = Asset.objects.filter(listed=True)
     template_name = 'brand/assets_list.html'
 
 

@@ -21,6 +21,7 @@ class Asset(models.Model):
     logo = models.ImageField(null=True, blank=True, upload_to='brand/asset/', verbose_name='آیکون')
     title = models.CharField(max_length=255, verbose_name='عنوان')
     value = models.CharField(null=True, blank=True, max_length=255, verbose_name='کد/مقدار/ارزش')
+    listed = models.BooleanField(default=False, verbose_name='نمایش در فروشگاه')
     description = models.TextField(null=True, blank=True, verbose_name='توضیحات')
     created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     update = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')

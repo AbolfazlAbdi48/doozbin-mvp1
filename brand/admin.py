@@ -21,4 +21,4 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ['listed']
