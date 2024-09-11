@@ -21,4 +21,5 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'limit')
     list_filter = ['listed']
