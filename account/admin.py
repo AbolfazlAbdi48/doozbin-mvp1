@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from account.models import User, UserWallet, UserScan, OwnedAsset
+from account.models import User, UserWallet, UserScan, OwnedAsset, ARUser
 
 
 # Register your models here.
@@ -49,4 +49,9 @@ class UserScanAdmin(admin.ModelAdmin):
 
 @admin.register(OwnedAsset)
 class OwnedAssetAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ARUser)
+class ARUserAdmin(admin.ModelAdmin):
     pass

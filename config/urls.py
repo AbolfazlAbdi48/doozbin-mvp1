@@ -24,7 +24,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('brand/', include('brand.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('brand/', include('doozbin_api.urls')),
+    path('api/v1/', include('doozbin_api.urls')),
     path('admin/', admin.site.urls),
 ]
 

@@ -156,3 +156,9 @@ EXPIRY_TIME_OTP = 300
 SMS_PANEL_BASE_API = config('SMS_PANEL_BASE_API')
 SMS_ORIGINATOR = config('SMS_ORIGINATOR')
 SMS_PANEL_ACCESS_KEY = config('SMS_PANEL_ACCESS_KEY')
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+    ]
+}

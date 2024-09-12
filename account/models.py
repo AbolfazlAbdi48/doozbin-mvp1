@@ -55,3 +55,14 @@ class OwnedAsset(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.asset}"
+
+
+class ARUser(models.Model):
+    user_mobile_id = models.CharField(max_length=255, verbose_name='آیدی موبایل')
+    phone_number = models.CharField(max_length=15, verbose_name='شماره موبایل')
+    rewards = models.ManyToManyField(Asset, related_name='ar_assets', null=True, blank=True, verbose_name='پاداش ها')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    update = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
+
+    def __str__(self):
+        return self.user_mobile_id
