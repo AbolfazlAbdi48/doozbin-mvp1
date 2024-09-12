@@ -23,6 +23,8 @@ class ARUserView(APIView):
                 reward = ar_user.rewards.first()
             else:
                 reward = Asset.objects.filter(limit__gte=1).first()
+                reward.limit -= 1
+                reward.save()
                 ar_user.rewards.add(reward)
 
             reward_serializer = AssetSerializer(reward).data
